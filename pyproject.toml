@@ -1,0 +1,29 @@
+[project]
+name = "ffmpeg-desktop-gui"
+version = "0.1.0"
+description = "A PySide6 desktop GUI for common FFmpeg workflows."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyside6>=6.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+ffmpeg-gui = "ffmpeg_gui.app:main"
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.14.0",
+    "pytest>=8.4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--basetemp=.pytest_tmp"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ffmpeg_gui"]
