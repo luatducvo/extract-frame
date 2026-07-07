@@ -112,6 +112,10 @@ def duration_seconds_from_probe(data: dict) -> float:
 
 
 def probe_media(ffprobe_path: Path, input_path: Path, timeout: int = 30) -> dict:
+    kwargs = {}
+    if sys.platform == "win32":
+        kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+
     result = subprocess.run(
         [
             str(ffprobe_path),
@@ -127,6 +131,7 @@ def probe_media(ffprobe_path: Path, input_path: Path, timeout: int = 30) -> dict
         text=True,
         timeout=timeout,
         check=True,
+        **kwargs,
     )
     return json.loads(result.stdout)
 

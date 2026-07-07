@@ -69,6 +69,10 @@ class ProcessWorker(QObject):
                 log_file.write("\n--- ffmpeg output ---\n")
                 log_file.flush()
 
+                kwargs = {}
+                if sys.platform == "win32":
+                    kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+
                 self.process = subprocess.Popen(
                     self.command,
                     stdout=log_file,
@@ -76,6 +80,7 @@ class ProcessWorker(QObject):
                     text=True,
                     encoding="utf-8",
                     errors="replace",
+                    **kwargs,
                 )
                 exit_code = self.process.wait()
                 elapsed_seconds = time.perf_counter() - start_time
